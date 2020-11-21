@@ -28,7 +28,7 @@
 			};
 			leds {
 			    status = "disabled";
-			}
+			};
 		};
 	};
 
@@ -49,15 +49,15 @@
 	    target = <&usb1>;
 	    __overlay__ {
 	        status = "disabled";
-	    }
-	}
+	    };
+	};
 
 	fragment@3 {
 	    target = <&usb1_phy>;
 	    __overlay__ {
 	        status = "disabled";
-	    }
-	}
+	    };
+	};
 
 	fragment@10 {
 		target= <&ocp>;
