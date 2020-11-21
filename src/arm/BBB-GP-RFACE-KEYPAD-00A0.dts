@@ -26,6 +26,9 @@
 					BB-GPIO-RFACE-BUTTON-00A0 = __TIMESTAMP__;
 				};
 			};
+			leds {
+			    status = "disabled";
+			}
 		};
 	};
 
@@ -38,9 +41,23 @@
                     AM33XX_IOPAD(0x9a4, PIN_INPUT_PULLUP | MUX_MODE7) /* BTN3 mcasp0_fsr.gpio3_19 */
                     AM33XX_IOPAD(0x94c, PIN_INPUT_PULLUP | MUX_MODE7) /* BTN4 mdc.gpio0_1 */
 		        >;
-                    };
+            };
 		};
 	};
+
+	fragment@2 {
+	    target = <&usb1>;
+	    __overlay__ {
+	        status = "disabled";
+	    }
+	}
+
+	fragment@3 {
+	    target = <&usb1_phy>;
+	    __overlay__ {
+	        status = "disabled";
+	    }
+	}
 
 	fragment@10 {
 		target= <&ocp>;
