@@ -59,14 +59,57 @@
 	    };
 	};
 
+	fragment@4 {
+	    target = <&mac>;
+	    __overlay__ {
+	        status = "disabled";
+	    };
+	};
+
+	fragment@4 {
+	    target = <&davinci_mdio>;
+	    __overlay__ {
+	        status = "disabled";
+	    };
+	};
+
+	fragment@5 {
+	    target = <&i2c2>;
+	    __overlay__ {
+	        status = "disabled";
+	    };
+	};
+
+
+	fragment@9 {
+		target = <&tscadc>;
+		__overlay__ {
+			status = "okay";
+			adc {
+				ti,adc-channels = <6>;
+				ti,chan-step-avg = <16 16 16 16 16 16 16 16>;
+				ti,chan-step-opendelay = <0x98>;
+				ti,chan-step-sampledelay = <0xff>;
+			};
+		};
+	};
+
 	fragment@10 {
 		target= <&ocp>;
 		__overlay__ {
 			cape-universal {
 				status = "disabled";
 			};
+			P9_19_pinmux {
+			    status = "disabled";
+			}
+			P9_20_pinmux {
+			    status = "disabled";
+			}
 		};
 	};
+
+
 
 	fragment@20 {
 		target-path="/";
