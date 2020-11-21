@@ -66,14 +66,14 @@
 	    };
 	};
 
-	fragment@4 {
+	fragment@5 {
 	    target = <&davinci_mdio>;
 	    __overlay__ {
 	        status = "disabled";
 	    };
 	};
 
-	fragment@5 {
+	fragment@6 {
 	    target = <&i2c2>;
 	    __overlay__ {
 	        status = "disabled";
