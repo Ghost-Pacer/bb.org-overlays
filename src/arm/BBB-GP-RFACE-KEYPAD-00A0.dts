@@ -112,6 +112,12 @@
 		};
 	};
 
+    fragment@8 {
+		target = <&sgx>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
 
 	fragment@9 {
 		target = <&tscadc>;
