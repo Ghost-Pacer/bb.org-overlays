@@ -102,10 +102,10 @@
 			};
 			P9_19_pinmux {
 			    status = "disabled";
-			}
+			};
 			P9_20_pinmux {
 			    status = "disabled";
-			}
+			};
 		};
 	};
 
