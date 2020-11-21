@@ -42,6 +42,31 @@
                     AM33XX_IOPAD(0x94c, PIN_INPUT_PULLUP | MUX_MODE7) /* BTN4 mdc.gpio0_1 */
 		        >;
             };
+
+            gp_lcd_pins: pinmux_gp_lcd_pins {
+                pinctrl-single,pins = <
+                    AM33XX_IOPAD(0x8a0, PIN_OUTPUT | MUX_MODE0)		/* lcd_data0.lcd_data0 */
+                    AM33XX_IOPAD(0x8a4, PIN_OUTPUT | MUX_MODE0)		/* lcd_data1.lcd_data1 */
+                    AM33XX_IOPAD(0x8a8, PIN_OUTPUT | MUX_MODE0)		/* lcd_data2.lcd_data2 */
+                    AM33XX_IOPAD(0x8ac, PIN_OUTPUT | MUX_MODE0)		/* lcd_data3.lcd_data3 */
+                    AM33XX_IOPAD(0x8b0, PIN_OUTPUT | MUX_MODE0)		/* lcd_data4.lcd_data4 */
+                    AM33XX_IOPAD(0x8b4, PIN_OUTPUT | MUX_MODE0)		/* lcd_data5.lcd_data5 */
+                    AM33XX_IOPAD(0x8b8, PIN_OUTPUT | MUX_MODE0)		/* lcd_data6.lcd_data6 */
+                    AM33XX_IOPAD(0x8bc, PIN_OUTPUT | MUX_MODE0)		/* lcd_data7.lcd_data7 */
+                    AM33XX_IOPAD(0x8c0, PIN_OUTPUT | MUX_MODE0)		/* lcd_data8.lcd_data8 */
+                    AM33XX_IOPAD(0x8c4, PIN_OUTPUT | MUX_MODE0)		/* lcd_data9.lcd_data9 */
+                    AM33XX_IOPAD(0x8c8, PIN_OUTPUT | MUX_MODE0)		/* lcd_data10.lcd_data10 */
+                    AM33XX_IOPAD(0x8cc, PIN_OUTPUT | MUX_MODE0)		/* lcd_data11.lcd_data11 */
+                    AM33XX_IOPAD(0x8d0, PIN_OUTPUT | MUX_MODE0)		/* lcd_data12.lcd_data12 */
+                    AM33XX_IOPAD(0x8d4, PIN_OUTPUT | MUX_MODE0)		/* lcd_data13.lcd_data13 */
+                    AM33XX_IOPAD(0x8d8, PIN_OUTPUT | MUX_MODE0)		/* lcd_data14.lcd_data14 */
+                    AM33XX_IOPAD(0x8dc, PIN_OUTPUT | MUX_MODE0)		/* lcd_data15.lcd_data15 */
+                    AM33XX_IOPAD(0x8e0, PIN_OUTPUT | MUX_MODE0)		/* lcd_vsync.lcd_vsync */
+                    AM33XX_IOPAD(0x8e4, PIN_OUTPUT | MUX_MODE0)		/* lcd_hsync.lcd_hsync */
+                    AM33XX_IOPAD(0x8e8, PIN_OUTPUT | MUX_MODE0)		/* lcd_pclk.lcd_pclk */
+                    AM33XX_IOPAD(0x8ec, PIN_OUTPUT | MUX_MODE0)		/* lcd_ac_bias_en.lcd_ac_bias_en */
+                >;
+            };
 		};
 	};
 
@@ -80,11 +105,18 @@
 	    };
 	};
 
+	fragment@7 {
+		target = <&lcdc>;
+		__overlay__ {
+			status = "okay";
+		};
+	};
+
 
 	fragment@9 {
 		target = <&tscadc>;
 		__overlay__ {
-			status = "okay";
+			status = "disabled";
 			adc {
 				ti,adc-channels = <6>;
 				ti,chan-step-avg = <16 16 16 16 16 16 16 16>;
@@ -114,7 +146,6 @@
 	fragment@20 {
 		target-path="/";
 		__overlay__ {
-
 			gpio_keys {
 				compatible = "gpio-keys";
 				pinctrl-names = "default";
@@ -156,6 +187,83 @@
 					 */
 					gpios = <&gpio0 1 0x0>;
 					gpio-key,wakeup;
+				};
+			};
+
+			panel {
+				status = "okay";
+				compatible = "ti,tilcdc,panel";
+				pinctrl-names = "default";
+				pinctrl-0 = <&gp_lcd_pins>;
+				panel-info {
+					ac-bias           = <255>;
+					ac-bias-intrpt    = <0>;
+					dma-burst-sz      = <16>;
+					bpp               = <16>;
+					fdd               = <0x80>;
+					sync-edge         = <0>;
+					sync-ctrl         = <1>;
+					raster-order      = <0>;
+					fifo-th           = <0>;
+				};
+				display-timings {
+					native-mode = <&timing0>;
+					// 7" TFT Display 800x480
+					/*timing0: 800x480 {
+						hactive         = <800>;
+						vactive         = <480>;
+						hback-porch     = <88>;
+						hfront-porch    = <112>;
+						hsync-len       = <48>;
+						vback-porch     = <32>;
+						vfront-porch    = <3>;
+						vsync-len       = <3>;
+						clock-frequency = <30900000>;
+						hsync-active    = <0>;
+						vsync-active    = <0>;
+					};*/
+					// Reference
+					/*timing0: 800x480p62 {
+                        clock-frequency = <30000000>;
+                        hactive = <800>;
+                        vactive = <480>;
+                        hfront-porch = <40>;
+                        hback-porch = <40>;
+                        hsync-len = <48>;
+                        vback-porch = <29>;
+                        vfront-porch = <13>;
+                        vsync-len = <3>;
+                        hsync-active = <0>;
+                        vsync-active = <0>;
+                    };*/
+                    // SYL2271 720p60
+                    timing0: 1280x720p60 {
+                        clock-frequency = <74250000>;
+                        hactive = <1280>;
+                        vactive = <720>;
+                        hfront-porch = <110>;
+                        hback-porch = <220>;
+                        hsync-len = <40>;
+                        vback-porch = <20>;
+                        vfront-porch = <5>;
+                        vsync-len = <5>;
+                        hsync-active = <1>;
+                        vsync-active = <1>;
+                    };
+                    // SYL2271 360p60
+                    /*timing0: 640x360p60 {
+                        clock-frequency = <18000000>;
+                        hactive = <640>;
+                        vactive = <360>;
+                        hfront-porch = <30>;
+                        hback-porch = <60>;
+                        hsync-len = <20>;
+                        vback-porch = <20>;
+                        vfront-porch = <10>;
+                        vsync-len = <10>;
+                        hsync-active = <1>;
+                        vsync-active = <1>;
+                    };*/
 				};
 			};
 		};
