@@ -37,6 +37,7 @@
 		__overlay__ {
 		    gp_rface_pins: pinmux_gp_rface_pins {
 		        pinctrl-single,pins = <
+		            AM33XX_IOPAD(0x840, PIN_INPUT_PULLUP | MUX_MODE7) /* BTN1 gpmc_a0.gpio1_16 */ /* should become shutdown handler eventually */
                     AM33XX_IOPAD(0x964, PIN_INPUT_PULLUP | MUX_MODE7) /* BTN2 ecap0_in_pwm0_out.gpio0_7 */
                     AM33XX_IOPAD(0x9a4, PIN_INPUT_PULLUP | MUX_MODE7) /* BTN3 mcasp0_fsr.gpio3_19 */
                     AM33XX_IOPAD(0x94c, PIN_INPUT_PULLUP | MUX_MODE7) /* BTN4 mdc.gpio0_1 */
@@ -163,7 +164,7 @@
 				gp_rface_btn2@0 {
 				    /* Button 2 - V15 ecap0_in_pwm0_out P9_42 gpio0[7]. AM33XX_IOPAD(0x964, PIN_INPUT | MUX_MODE7) */
 					debounce_interval = <50>;
-					linux,code = <17>;
+					linux,code = <17>; /* W */
 					label = "GPIO B2 Up";
 					gpios = <&gpio0 7 0x0>;
 					gpio-key,wakeup;
@@ -172,7 +173,7 @@
 				gp_rface_btn3@1 {
 					/* Button 3 - W15 mcasp0_fsr P9_27 gpio3[19]. AM33XX_IOPAD(0x9a4, PIN_INPUT | MUX_MODE7) */
 					debounce_interval = <50>;
-					linux,code = <31>;
+					linux,code = <31>; /* S */
 					label = "GPIO B3 Down";
 					/*
 					 * Grove Red/Yellow/Blue LED Button
@@ -185,7 +186,7 @@
 				gp_rface_btn4@2 {
 				    /* Button 4 - W1 mdc gpio0[1] AM33XX_IOPAD(0x94c, PIN_INPUT | MUX_MODE7) */
 				    debounce_interval = <50>;
-					linux,code = <45>;
+					linux,code = <45>; /* X */
 					label = "GPIO B4 Select";
 					/*
 					 * Grove Red/Yellow/Blue LED Button
@@ -194,6 +195,19 @@
 					gpios = <&gpio0 1 0x0>;
 					gpio-key,wakeup;
 				};
+
+				gp_rface_btn1@3 {
+				    /* Button 1 - A13 gpmc_a0 gpio1[16] AM33XX_IOPAD(0x840, PIN_INPUT | MUX_MODE7) */
+				    debounce_interval = <50>;
+					linux,code = <24>; /* O */
+					label = "GPIO B1 Power";
+					/*
+					 * Grove Red/Yellow/Blue LED Button
+					 * LOW valid/press
+					 */
+					gpios = <&gpio1 16 0x0>;
+					gpio-key,wakeup;
+				}
 			};
 
 			panel {
@@ -243,7 +257,7 @@
                         vsync-active = <0>;
                     };*/
                     // SYL2271 720p60
-                    timing0: 1280x720p60 {
+                    /*timing0: 1280x720p60 {
                         clock-frequency = <74250000>;
                         hactive = <1280>;
                         vactive = <720>;
@@ -255,9 +269,9 @@
                         vsync-len = <5>;
                         hsync-active = <1>;
                         vsync-active = <1>;
-                    };
+                    };*/
                     // SYL2271 360p60
-                    /*timing0: 640x360p60 {
+                    timing0: 640x360p60 {
                         clock-frequency = <18000000>;
                         hactive = <640>;
                         vactive = <360>;
@@ -269,7 +283,7 @@
                         vsync-len = <10>;
                         hsync-active = <1>;
                         vsync-active = <1>;
-                    };*/
+                    };
 				};
 			};
 		};
