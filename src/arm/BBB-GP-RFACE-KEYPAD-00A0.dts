@@ -207,7 +207,7 @@
 					 */
 					gpios = <&gpio1 16 0x0>;
 					gpio-key,wakeup;
-				}
+				};
 			};
 
 			panel {
