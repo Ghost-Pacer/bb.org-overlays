@@ -271,8 +271,22 @@
                         vsync-active = <1>;
                     };*/
                     // SYL2271 360p60
-                    timing0: 640x360p60 {
+                    /*timing0: 640x360p60 {
                         clock-frequency = <18000000>;
+                        hactive = <640>;
+                        vactive = <360>;
+                        hfront-porch = <30>;
+                        hback-porch = <60>;
+                        hsync-len = <20>;
+                        vback-porch = <20>;
+                        vfront-porch = <10>;
+                        vsync-len = <10>;
+                        hsync-active = <1>;
+                        vsync-active = <1>;
+                    };*/
+                    // Untested SYL2271 360p120
+                    timing0: 640x360p60 {
+                        clock-frequency = <36000000>;
                         hactive = <640>;
                         vactive = <360>;
                         hfront-porch = <30>;
